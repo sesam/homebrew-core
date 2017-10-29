@@ -5,12 +5,10 @@ class Manticore < Formula
   homepage "https://manticoresearch.com/"
   # documentation "http://docs.manticoresearch.com/latest/html/"
 
-  url "https://github.com/manticoresoftware/manticore/archive/2.2.11-release.tar.gz"
-  sha256 "033caa771e713a6140053bbd439506909384d9d5ea547a614360b86be96d2f09"
+  url "https://github.com/manticoresoftware/manticore/archive/2.3.3-170706.tar.gz"
+  sha256 "97317180d92260c2b0dfd95d714ad1c0622c256cfdeb6eef423a3cd2a8af6ef0"
   head "https://github.com/manticoresoftware/manticore.git"
 
-  # 2.2.11 033caa771e713a6140053bbd439506909384d9d5ea547a614360b86be96d2f09  https://github.com/manticoresoftware/manticore/archive/2.2.11-release.tar.gz
-  # 2.3.3  97317180d92260c2b0dfd95d714ad1c0622c256cfdeb6eef423a3cd2a8af6ef0  https://github.com/manticoresoftware/manticore/archive/2.3.3-170706.tar.gz
   # 2.4.1  936cb2629a7f4ef38c8003cdd676ed9b3d03e9958af8fc0c536b5243ee8bfdb5  https://github.com/manticoresoftware/manticore/archive/2.4.1.tar.gz
 
   bottle do
