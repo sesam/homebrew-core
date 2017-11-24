@@ -5,8 +5,8 @@ class Manticore < Formula
   homepage "https://manticoresearch.com/"
   # documentation "http://docs.manticoresearch.com/latest/html/"
 
-  url "https://github.com/manticoresoftware/manticore/archive/2.4.1.tar.gz"
-  sha256 "936cb2629a7f4ef38c8003cdd676ed9b3d03e9958af8fc0c536b5243ee8bfdb5"
+  url "https://github.com/manticoresoftware/manticore/releases/download/2.5.1/manticore-2.5.1-171123-b751d2b-release.tar.gz"
+  sha256 "499332efda582a9d091045a88c3260aea7ac8812b299b5e03810becdbc53b2ac"
   head "https://github.com/manticoresoftware/manticore.git"
 
   bottle do
