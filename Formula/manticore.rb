@@ -1,6 +1,6 @@
 # https://discourse.brew.sh/t/convert-formulae-manticoresearch-is-a-community-focused-fork-of-sphinxsearch-made-by-sphinx-insiders/1258
 class Manticore < Formula
-  # "Manticore is a fork of Sphinxsearch, that comes with different installation paths, but same default ports and configuration, making it a drop-in replacement if you stop sphinx; rebuild indexes with and then start manticore"
+  # "Manticore, a Sphinxsearch drop-in replacement with same defaults. Install. Stop sphinxsearch; rebuild indexes and start manticore. Done!"
   desc "Full-text search engine (forked from sphinxsearch 2017)"
   homepage "https://manticoresearch.com/"
   # documentation "http://docs.manticoresearch.com/latest/html/"
