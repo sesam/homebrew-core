@@ -39,67 +39,69 @@ class Manticore < Formula
   needs :cxx11 if build.with? "re2"
 
   def install
-    if build.with? "re2"
-      ENV.cxx11
-
-      # Fix "error: invalid suffix on literal" and "error:
-      # non-constant-expression cannot be narrowed from type 'long' to 'int'"
-      # Upstream issue from 7 Dec 2016 http://sphinxsearch.com/bugs/view.php?id=2578
-      ENV.append "CXXFLAGS", "-Wno-reserved-user-defined-literal -Wno-c++11-narrowing"
-    end
+    # if build.with? "re2"
+    #   ENV.cxx11
+    #   # Fix "error: invalid suffix on literal" and "error:
+    #   # non-constant-expression cannot be narrowed from type 'long' to 'int'"
+    #   # Upstream issue from 7 Dec 2016 http://sphinxsearch.com/bugs/view.php?id=2578
+    #   ENV.append "CXXFLAGS", "-Wno-reserved-user-defined-literal -Wno-c++11-narrowing"
+    # end
 
     resource("stemmer").stage do
       system "make", "dist_libstemmer_c"
       system "tar", "xzf", "dist/libstemmer_c.tgz", "-C", buildpath
     end
 
+    # defaults are:
+    #   CMAKE_BUILD_TYPE=RelWithDebInfo, USE_BISON, USE_FLEX, WITH_STEMMER (bundled libstemmer_c/),
+    #   WITH_RE2 (bundled libre2/),
     args = %W[
-      --prefix=#{prefix}
-      --disable-dependency-tracking
+      -DCMAKE_INSTALL_PREFIX=#{prefix}
       --localstatedir=#{var}
-      --with-libstemmer
+      -D WITH_STEMMER=ON
+      -D WITH_ZLIB=ON
     ]
+    # --disable-dependency-tracking
 
-    args << "--enable-id64" if build.with? "id64"
-    args << "--with-re2" if build.with? "re2"
+    # args << "--enable-id64" if build.with? "id64"
+
+    # if build.with? "re2"
+      args << "-D WITH_RE2=1"
+    # else
+    #   args << "-D WITH_RE2=0"
+    # end
 
     if build.with? "mysql"
-      args << "--with-mysql"
+      args << "-D WITH_MYSQL=1"
     else
-      args << "--without-mysql"
+      args << "-D WITH_MYSQL=0"
     end
 
     if build.with? "postgresql"
-      args << "--with-pgsql"
+      args << "-D WITH_PGSQL=1"
     else
-      args << "--without-pgsql"
+      args << "-D WITH_PGSQL=0"
     end
 
-    system "./configure", *args
-    system "make", "install"
+    args << '.'
+    p "cmake", *args
+    p Dir.pwd
+  STDIN.read
+    system "cmake", *args
+    system "make", "-j4 install"
   end
 
   def caveats; <<~EOS
-    This is not sphinxsearch - manticore forked away from sphinx in 2017.
-    This is not sphinx - the Python Documentation Generator.
-    To install sphinx-python use pip.
+    Manticore forked away from Sphinx search in 2017, with API compatibility for 2.x versions. #semver
 
-    Manticore has been compiled with libstemmer support.
+    Manticore has been compiled with libstemmer (snowballstem/snowball.git @ 9b58e9) support.
 
-    Manticore depends on either MySQL or PostreSQL as a datasource.
+    To use non-RT indexes, you must have mySQL or Postgres. Handy install commands:
+      brew install mysql # For MySQL server.
+      brew install mysql-connector-c # For MySQL client libraries only.
+      brew install postgresql # For PostgreSQL server.
 
-    You can install these with Homebrew with:
-      brew install mysql
-        For MySQL server.
-
-      brew install mysql-connector-c
-        For MySQL client libraries only.
-
-      brew install postgresql
-        For PostgreSQL server.
-
-    We don't install these for you when you install this formula, as
-    we don't know which datasource you intend to use.
+    These are not strict dependencies, so you'll have to pick and install these yourself.
     EOS
   end
 
